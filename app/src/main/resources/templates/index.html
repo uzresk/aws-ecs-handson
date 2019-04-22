@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8" />
+	<title>Sample Application</title>
+</head>
+<body>
+<h1>Sample Application</h1>
+<hr/>
+IPAddress:
+	<span th:text="${ipAddress}"></span>
+<hr/>
+Cookie:
+	<span th:each="cookie : ${cookies}">
+		<p th:text="${cookie.getName() + ':' + cookie.getValue()}"></p>
+	</span>
+</div>
+</body>
+</html>
