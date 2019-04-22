@@ -39,7 +39,7 @@ yum -y install java-1.8.0-openjdk.x86_64 java-1.8.0-openjdk-devel.x86_64
 export JAVA_HOME=/usr/lib/jvm/java-openjdk/
 ```
 
-コンパイルしてパッケージングする（target/web-0.0.1-SNAPSHOT.jarが作成される）
+コンパイルしてパッケージングする（target/app-0.0.1-SNAPSHOT.jarが作成される）
 
 ```
 chmod +x mvnw
@@ -49,7 +49,7 @@ chmod +x mvnw
 起動を確認しておく
 
 ```
-java -jar target/web-0.0.1-SNAPSHOT.jar
+java -jar target/app-0.0.1-SNAPSHOT.jar
 curl http://localhost:8080/
 ```
 
@@ -91,13 +91,13 @@ curl http://localhost:8080
 ECRのリポジトリにログインする
 
 ```
-`aws ecr get-login --region [REGION] --no-include-email`
+`aws ecr get-login --region ap-northeast-1 --no-include-email`
 ```
 
 リポジトリを作成する
 
 ```
-[root@ip-10-0-1-13 ecs-sample-app]# aws ecr create-repository --repository-name ecs-handson --region ap-northeast-1
+aws ecr create-repository --repository-name ecs-handson-app --region ap-northeast-1
 {
     "repository": {
         "registryId": "XXXXXXXXXXXX",
@@ -109,7 +109,7 @@ ECRのリポジトリにログインする
 }
 ```
 
-tagをつける
+タグをつける
 
 ```
 [root@ip-10-0-1-13 ecs-sample-app]# docker images
@@ -119,21 +119,21 @@ amazonlinux         2.0.20190228        01da4f8f9748        4 weeks ago         
 ```
 
 ```
-docker tag ea6fda1533f8 XXXXXXXXXXXX.dkr.ecr.ap-northeast-1.amazonaws.com/ecs-handson:latest
+docker tag ea6fda1533f8 XXXXXXXXXXXX.dkr.ecr.ap-northeast-1.amazonaws.com/ecs-handson-app:latest
 ```
 
 
 ```
 [root@ip-10-0-1-13 ecs-sample-app]# docker images
-REPOSITORY                                                      TAG                 IMAGE ID            CREATED              SIZE
-XXXXXXXXXXXX.dkr.ecr.ap-northeast-1.amazonaws.com/ecs-handson   latest              ea6fda1533f8        About a minute ago   635MB
-amazonlinux                                                     2.0.20190228        01da4f8f9748        4 weeks ago          162MB
+REPOSITORY                                                          TAG                 IMAGE ID            CREATED              SIZE
+XXXXXXXXXXXX.dkr.ecr.ap-northeast-1.amazonaws.com/ecs-handson-app   latest              ea6fda1533f8        About a minute ago   635MB
+amazonlinux                                                         2.0.20190228        01da4f8f9748        4 weeks ago          162MB
 ```
 
 pushする
 
 ```
-docker push XXXXXXXXXXXX.dkr.ecr.ap-northeast-1.amazonaws.com/ecs-handson:latest
+docker push XXXXXXXXXXXX.dkr.ecr.ap-northeast-1.amazonaws.com/ecs-handson-app:latest
 ```
 
 ## Application LoadBalancerの作成
@@ -172,7 +172,7 @@ ECS → クラスタの作成 → ネットワーキングのみ → 次のス�
   
 コンテナの追加  
 コンテナ名：ecshandsoncontainer  
-イメージ：XXXXXXXXXXXX.dkr.ecr.ap-northeast-1.amazonaws.com/ecs-handson:latest  
+イメージ：XXXXXXXXXXXX.dkr.ecr.ap-northeast-1.amazonaws.com/ecs-handson-app:latest  
 ポートマッピング：8080  
 
 ### サービスの作成
@@ -181,7 +181,7 @@ ECS → クラスタの作成 → ネットワーキングのみ → 次のス�
 タスク定義：ecs-handson-task  
 プラットフォームのバージョン：LATEST  
 クラスタ：ecs-handson-cluster  
-サービス名：web  
+サービス名：app  
 タスクの数：1  
 最小ヘルス数：100  
 最大率：200  

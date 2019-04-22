@@ -20,9 +20,9 @@ ARG JAR_FILE
 ENV USER_NAME sample
 
 RUN useradd -ms /bin/bash $USER_NAME
-COPY target/web-0.0.1-SNAPSHOT.jar /web.jar
-RUN chown ${USER_NAME} /web.jar
+COPY target/app-0.0.1-SNAPSHOT.jar /app.jar
+RUN chown ${USER_NAME} /app.jar
 
 USER ${USER_NAME}
 EXPOSE 8080
-ENTRYPOINT ["java","-jar","/web.jar"]
+ENTRYPOINT ["java","-jar","/app.jar"]
