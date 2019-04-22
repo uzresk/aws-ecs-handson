@@ -1,4 +1,6 @@
 server:
+  servlet:
+    context-path: /app
   port: 8080
 tomcat:
   ajp:
