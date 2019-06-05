@@ -15,6 +15,8 @@ RUN ln -fs /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
 
 ADD ./index.html /var/www/html/
 RUN sed -i -e "s/Listen\ 80/Listen\ 0.0.0.0:80/" /etc/httpd/conf/httpd.conf
+RUN sed -i -e "s/ErrorLog\ \"logs\/error_log\"/ErrorLog\ \"\/dev\/stdout\"/" /etc/httpd/conf/httpd.conf
+RUN sed -i -e "s/CustomLog\ \"logs\/access_log\"/CustomLog\ \"\/dev\/stdout\"/" /etc/httpd/conf/httpd.conf
 ADD ./http-proxy.conf /etc/httpd/conf.d/http-proxy.conf
 
 EXPOSE 80
