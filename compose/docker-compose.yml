@@ -1,14 +1,14 @@
 version: '3'
 services:
   web:
-    image: uzresk/web
+    image: ecs-handson/web
     ports:
       - 80:80
     container_name: web
     depends_on:
       - app
   app:
-    image: uzresk/app
+    image: ecs-handson/app
     ports:
       - 8080:8080
       - 8009:8009
