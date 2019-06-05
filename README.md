@@ -1,7 +1,6 @@
 # ECS Hands On
 
-
-##　ecs-cliとdocker-composeでデプロイ
+## ecs-cliとdocker-composeでデプロイ
 
 先ほど作ったECSのサービスを削除しておきましょう。  
 
